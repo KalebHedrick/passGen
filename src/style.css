@@ -1,0 +1,111 @@
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-decoration: none;
+}
+body {
+	
+	background-image: url(logo.png);
+	background-size: 900px;
+	background-repeat: no-repeat;
+	background-position: 50% -5%;
+}
+.header {
+	position: relative;
+	width: 100%;
+	height: 80px;
+	display: block;
+	background-color: #101010;
+	border-bottom: groove;
+ margin-left: auto;
+  margin-right: auto;
+filter: drop-shadow(20px 20px 60px);
+}
+.inner_header {
+	height: 100%;
+	display: block;
+	margin:  auto;
+	width: 25%;
+}
+.logo_container {
+	height: 100%;
+	display: table;
+	float: left;
+}
+
+.logo_container h1 {
+	color: #F5F5F5;
+	height: 100%;
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 38px;
+	font-family: 'Georgia';
+	align-items: center;
+	vertical-align: 150px;
+	text-align: center;	
+	text-shadow: 2px 2px 4px rgba(200, 0, 0, 0.5);
+}
+.rectangle {
+	height: 50px;
+	width: 500px;
+	background-color: #004F76;
+	font-size: 25px;
+	filter: drop-shadow(20px 20px 20px);
+	margin-bottom: 500px;
+	margin-top: 100px;
+	margin-left: auto;
+    	margin-right: auto;
+	display: flex;
+	outline-style: inset;
+	
+}
+.encrypted_pass {
+	margin: auto;
+	width: 50%;
+	font-size: 38px;
+	font-family: 'Georgia';
+	flex: 1;
+	text-align:center;
+	position: relative;
+}
+.rectangle2 {
+	height: 50px;
+	width: 800px;
+	background-color: #004F76;
+	font-size: 25px;
+	filter: drop-shadow(20px 20px 20px);
+	margin-bottom: 500px;
+	margin-top: 100px;
+	margin-left: auto;
+    	margin-right: auto;
+	display: flex;
+	margin-top: -300px;
+	
+}
+#logospin {
+	position: absolute;
+	width:5%;
+	top: 50%;
+  	left: 5%;
+  	transform: translate(-105%, -50%);
+}
+#logospin2 {
+	position: absolute;
+	width:5%;
+	top: 50%;
+  	left: 100%;
+  	transform: translate(-105%, -50%);
+}
+.box {
+background-image: repeating-linear-gradient(-60deg, #fbaa1d, #fbaa1d 4px, transparent 25px, transparent 27.72px, #fbaa1d 42px), repeating-linear-gradient(30deg, #fbaa1d, #fbaa1d 4px, transparent 25px, transparent 27.72px, #fbaa1d 42px), repeating-linear-gradient(120deg, #fbaa1d, #fbaa1d 4px, transparent 25px, transparent 27.72px, #fbaa1d 42px), repeating-linear-gradient(210deg, #fbaa1d, #fbaa1d 4px, transparent 25px, transparent 27.72px, #fbaa1d 42px);
+background-size: 4px calc(100% + 84px), calc(100% + 84px) 4px, 4px calc(100% + 84px) , calc(100% + 84px) 4px;
+background-position: 0 0, 0 0, 100% 0, 0 100%;
+background-repeat: no-repeat;
+animation: borderAnimation 0.5s infinite linear;
+}
+
+@keyframes borderAnimation {
+from { background-position: 0 0, -84px 0, 100% -84px, 0 100%; }
+to { background-position: 0 -84px, 0 0, 100% 0, -84px 100%; }
+}
