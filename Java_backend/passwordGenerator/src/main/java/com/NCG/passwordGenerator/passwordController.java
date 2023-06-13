@@ -20,13 +20,14 @@ passwordService passwordObj;
 private List<passKey> getAllPasswords()   
 { 
     List<passKey> k = passwordObj.getAllPasswords();
-    passwordObj.clearPass();
+    
 return k;  
 }  
 @PostMapping("/passKey") 
 private long savePassword(@RequestBody passKey passs) throws IOException   
 {  
     passKey pass = new passKey(passs.getpassLength());
+    passwordObj.clearPass();
 passwordObj.savePass(pass);  
 return pass.getId(); 
 }

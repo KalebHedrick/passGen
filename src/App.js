@@ -1,21 +1,15 @@
 import React from "react";
 import "./style.css";
 import spinlogo from "./logospin.gif";
-import { useState, useEffect,setData, setError, getData, setLoading, fetchData } from 'react';
-import getPassword from "./index.js";
-import root from "./index.js";
+import { useState, useEffect } from 'react';
 export const backend_link = 'http://localhost:8080';
-let current_length;
-
+let first_render = true;
+let final_pass = "";
 
 export default function App() {
   
   return (<>
-    <title>NCG PASS GEN</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap"
-      rel="stylesheet"
-    />
+    <title>passGen</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <div className="header">
       <img src={spinlogo} id="logospin" />
@@ -23,62 +17,88 @@ export default function App() {
       <div className="inner_header">
         <div className="logo_container">
           <h1>
-            <span>NCG</span> Password Generator
+            Password Generator
           </h1>
         </div>
       </div>
     </div>
     
     <MyPassword/>
+    
     </>
   );
 }
 
 function MyPassword() {
   const [data, setData] = useState([]);
-  const [isLoading, setLoading] = useState(true);
+  let [isLoading, setLoading] = useState(true);
   const [didPost, setPost] = useState(false);
+  
+  function getPassword(length) {
+    if (length == 0) {
+      length = 4;
+    }
+    const element = document.querySelector('#post-request .article-id');
+const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ passLength: length })
+};
+fetch(backend_link + '/passKey', requestOptions)
+.then(res => setPost(!didPost))
+   // .then(data => element.innerHTML = data.id );
+}
+
   function handleSubmit(event) {
+   setLoading(true);
     event.preventDefault();
-    setLoading(true);
     getPassword(event.target[0].value);
-    setPost(!didPost);
   }
+
   useEffect(() => {
+    if (first_render) {first_render = false;}
+    else {
     fetchWithRetry(backend_link).then((res) => res.json()).then((res) => {
-      setData(res);
       setLoading(false);
-      
-    })
+      setData(res); 
+    })}
 },[didPost]);
+
 let result_box;
-if (isLoading) {
-  result_box = <p> Loading Results</p>;
+if(first_render) {}
+else {
+if(isLoading) {
+result_box = <p> Loading Results</p>;
+console.log('loading condition');     //log the api is loading
 }
 else {
   result_box = data.map((passString) =>
-  <p>{passString.password}</p>)
+  <p key = {passString.id }>{passString.password}</p>)
+  final_pass = result_box;
 }
+}
+console.log(result_box); //log the password
     return (<>
     <div className="rectangle">
 <form onSubmit={handleSubmit}>
-        Number of words in password: <input type="text"/>
-        <button type="submit">Submit form</button>
+         <center>Password Length:<input type="text" placeholder = "Default: 4" className="textbox"/></center>
+        <center><button type="submit" className = "submit">Generate Password</button></center>
       </form>
     </div>
-    <div className="rectangle2 box">
+    <div className="rectangle2 gradient-border">
     <p></p>
-      <div className="encrypted_pass">{result_box}
+      <div className="encrypted_pass" id = "select" onMouseEnter={() => selectElementContents(document.getElementById("select"))}>{result_box}</div>
       </div>
-    </div>
-
+      <center><button className="submit copy" onClick={() => {navigator.clipboard.writeText(result_box[0].props.children);}}>
+        Copy to Clipboard
+      </button></center>
     </>);
   
 }
 
 
 
-const fetchWithRetry = async (url, tries=2) => {
+const fetchWithRetry = async (url, tries=20) => {
   const errs = [];
   
   for (let i = 0; i < tries; i++) {
@@ -97,4 +117,11 @@ const fetchWithRetry = async (url, tries=2) => {
   }
   
   throw errs;
-};
+}
+function selectElementContents(el) {
+  var range = document.createRange();
+  range.selectNodeContents(el);
+  var sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
