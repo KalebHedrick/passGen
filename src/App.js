@@ -7,7 +7,7 @@ let first_render = true;
 let final_pass = "";
 
 export default function App() {
-  
+
   return (<>
     <title>passGen</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
@@ -22,89 +22,90 @@ export default function App() {
         </div>
       </div>
     </div>
-    
-    <MyPassword/>
-    
-    </>
+
+    <MyPassword />
+
+  </>
   );
 }
 
-function MyPassword() {
-  const [data, setData] = useState([]);
-  let [isLoading, setLoading] = useState(true);
-  const [didPost, setPost] = useState(false);
-  
-  function getPassword(length) {
-    if (length == 0) {
+function MyPassword() { //used to render all password UI
+  const [data, setData] = useState([]); //new password state
+  let [isLoading, setLoading] = useState(true); //loading state
+  const [didPost, setPost] = useState(false); //post completed state
+
+  function getPassword(length) { //inner function which is called to post the data
+    if (length == 0) { //if no input, set default passLength
       length = 4;
     }
     const element = document.querySelector('#post-request .article-id');
-const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ passLength: length })
-};
-fetch(backend_link + '/passKey', requestOptions)
-.then(res => setPost(!didPost))
-   // .then(data => element.innerHTML = data.id );
-}
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ passLength: length })
+    };
+    fetch(backend_link + '/passKey', requestOptions)
+      .then(res => setPost(!didPost))
+    // .then(data => element.innerHTML = data.id );
+  }
 
   function handleSubmit(event) {
-   setLoading(true);
+    setLoading(true);
     event.preventDefault();
     getPassword(event.target[0].value);
   }
-
-  useEffect(() => {
-    if (first_render) {first_render = false;}
+ 
+  useEffect(() => { //calls get fetch code when post is loaded
+    if (first_render) { first_render = false; }
     else {
-    fetchWithRetry(backend_link).then((res) => res.json()).then((res) => {
-      setLoading(false);
-      setData(res); 
-    })}
-},[didPost]);
+      fetchWithRetry(backend_link).then((res) => res.json()).then((res) => {
+        setLoading(false);
+        setData(res);
+      })
+    }
+  }, [didPost]);
 
-let result_box;
-if(first_render) {}
-else {
-if(isLoading) {
-result_box = <p> Loading Results</p>;
-console.log('loading condition');     //log the api is loading
-}
-else {
-  result_box = data.map((passString) =>
-  <p key = {passString.id }>{passString.password}</p>)
-  final_pass = result_box;
-}
-}
-console.log(result_box); //log the password
-    return (<>
+  let result_box;
+  if (first_render) { }
+  else {
+    if (isLoading) {
+      result_box = <p> Loading Results</p>;
+      console.log('loading condition');     //log the api is loading
+    }
+    else {
+      result_box = data.map((passString) =>          //maps password from JSOn
+        <p key={passString.id}>{passString.password}</p>)
+      final_pass = result_box;
+    }
+  }
+  console.log(result_box); //log the password
+  return (<>
     <div className="rectangle">
-<form onSubmit={handleSubmit}>
-         <center>Password Length:<input type="text" placeholder = "Default: 4" className="textbox"/></center>
-        <center><button type="submit" className = "submit">Generate Password</button></center>
+      <form onSubmit={handleSubmit}>
+        <center>Password Length:<input type="text" placeholder="Default: 4" className="textbox" /></center>
+        <center><button type="submit" className="submit">Generate Password</button></center>
       </form>
     </div>
     <div className="rectangle2 gradient-border">
-    <p></p>
-      <div className="encrypted_pass" id = "select" onMouseEnter={() => selectElementContents(document.getElementById("select"))}>{result_box}</div>
-      </div>
-      <center><button className="submit copy" onClick={() => {navigator.clipboard.writeText(result_box[0].props.children);}}>
-        Copy to Clipboard
-      </button></center>
-    </>);
-  
+      <p></p>
+      <div className="encrypted_pass" id="select" onMouseEnter={() => selectElementContents(document.getElementById("select"))}>{result_box}</div>
+    </div>
+    <center><button className="submit copy" onClick={() => { navigator.clipboard.writeText(result_box[0].props.children); }}> 
+      Copy to Clipboard
+    </button></center>
+  </>);
+
 }
 
 
 
-const fetchWithRetry = async (url, tries=20) => {
+const fetchWithRetry = async (url, tries = 20) => { //function to retry get fetch 20 times, used for the purpose of client side errors
   const errs = [];
-  
+
   for (let i = 0; i < tries; i++) {
     // log for illustration
     console.log(`trying GET '${url}' [${i + 1} of ${tries}]`);
-    
+
     try {
       const ret = await fetch(url);
       if (ret.status < 400) {
@@ -115,10 +116,10 @@ const fetchWithRetry = async (url, tries=20) => {
       errs.push(err);
     }
   }
-  
+
   throw errs;
 }
-function selectElementContents(el) {
+function selectElementContents(el) { //function to select text from element
   var range = document.createRange();
   range.selectNodeContents(el);
   var sel = window.getSelection();

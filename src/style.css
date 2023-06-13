@@ -151,6 +151,8 @@ animation: borderAnimation 0.5s infinite linear;
 	text-decoration: none;
 	margin-top: 50px;
 	transition-duration: 0.3s;
+	-webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
   }
   .submit:hover {
 	background: #f7c1f7;
