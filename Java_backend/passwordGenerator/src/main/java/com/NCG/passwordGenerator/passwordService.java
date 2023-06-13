@@ -8,17 +8,17 @@ public class passwordService
 {  
 @Autowired  
 passKeyRepository repository;  
-//getting all student records  
+//this method gets all posted password (there will only be one since passwords are deleted with every post request) 
 public List<passKey> getAllPasswords()   
 {  
 List<passKey> passkeys = new ArrayList<passKey>();  
 repository.findAll().forEach(passKey -> passkeys.add(passKey));  
 return passkeys;  
 }  
-public void savePass(passKey pass) {
+public void savePass(passKey pass) { //this method saves password to repo
     repository.save(pass);
 }
-public void clearPass() {
+public void clearPass() { //clears password
     repository.deleteAll();
 }
 }  

@@ -16,18 +16,18 @@ public class passwordController
 {  
 @Autowired  
 passwordService passwordObj;     
-@RequestMapping(value = "/", method = RequestMethod.GET) 
+@RequestMapping(value = "/", method = RequestMethod.GET) //get request handler
 private List<passKey> getAllPasswords()   
 { 
     List<passKey> k = passwordObj.getAllPasswords();
     
 return k;  
 }  
-@PostMapping("/passKey") 
-private long savePassword(@RequestBody passKey passs) throws IOException   
+@PostMapping("/passKey") //post request handler
+private long savePassword(@RequestBody passKey passs) throws IOException  
 {  
     passKey pass = new passKey(passs.getpassLength());
-    passwordObj.clearPass();
+    passwordObj.clearPass(); //delete previous password
 passwordObj.savePass(pass);  
 return pass.getId(); 
 }

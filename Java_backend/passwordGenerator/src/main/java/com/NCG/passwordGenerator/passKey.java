@@ -36,17 +36,17 @@ public String generate() throws IOException { //calls private password function 
 }
 
 private String makeKey() throws IOException { //generates a new password and sets instance variable
-  InputStream is = new ClassPathResource("/words.txt").getInputStream();
+  InputStream is = new ClassPathResource("/words.txt").getInputStream(); //creates inputstream value from word list
     String pass = "";
     try {
-        File dictionary = convertInputStreamtoFile(is);
+        File dictionary = convertInputStreamtoFile(is); //helper function to get file from inputstream
         Scanner myReader = new Scanner(dictionary);
-        int lines = 0;
-        while (myReader.hasNextLine()) {
+        int lines = 0; //number of lines (words)
+        while (myReader.hasNextLine()) { //counts total number of words in file
             lines++;
             myReader.nextLine();
           }
-    for(int i =0; i < passLength; i++) {
+    for(int i =0; i < passLength; i++) { //loop to get random words from file
         myReader = new Scanner(dictionary);
         Random ran = new Random();
         int index = ran.nextInt(lines);
@@ -54,10 +54,10 @@ private String makeKey() throws IOException { //generates a new password and set
             index--;
             myReader.nextLine();
         }
-        String word = myReader.nextLine();
+        String word = myReader.nextLine(); 
         pass += word + " ";
     }
-      myReader.close();
+      myReader.close(); //close and delete temp file
       dictionary.delete();
     }catch (FileNotFoundException e) {
       System.out.println("An error occurred, password could not be made.\n");
@@ -66,6 +66,7 @@ private String makeKey() throws IOException { //generates a new password and set
     this.password =  pass.substring(0, pass.length());
     return this.password;
 }
+
 private File convertInputStreamtoFile(InputStream is) throws IOException{
   File file = new File("tempwords.txt");
   try (FileOutputStream outputStream = new FileOutputStream(file, false)) {
