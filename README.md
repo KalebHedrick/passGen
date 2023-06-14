@@ -9,9 +9,8 @@ NOTE:
 
 
 ## Demo
-User can enter a password length, and the program makes a post and get fetch request to the spring boot app, then renders the password on the screen.
 ![](https://github.com/KalebHedrick/passGen/blob/main/demoPass.gif)
-
+User can enter a password length, and the program makes a post and get fetch request to the spring boot app, then renders the password on the screen. Password Length is the number of words in password. The words list can be swapped by changing the words.txt file, demo uses the OXFORD 3000 common words list.
 
 
 ## Deployment
