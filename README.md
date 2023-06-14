@@ -9,7 +9,7 @@ NOTE:
 
 
 ## Demo
-
+User can enter a password length, and the program makes a post and get fetch request to the spring boot app, then renders the password on the screen.
 ![](https://github.com/KalebHedrick/passGen/blob/main/demoPass.gif)
 
 
